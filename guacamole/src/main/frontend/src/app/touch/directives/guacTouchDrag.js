@@ -158,6 +158,7 @@ angular.module('touch').directive('guacTouchDrag', [function guacTouchDrag() {
 
             // Reset monitoring and fire end event when done
             element.addEventListener("touchend", function dragTouchEnd(e) {
+                console.log("touchend listenend")
 
                 if (startX && startY && e.touches.length === 0) {
 
@@ -165,7 +166,8 @@ angular.module('touch').directive('guacTouchDrag', [function guacTouchDrag() {
                     if (inProgress && guacTouchDrag) {
                         $scope.$apply(function dragComplete() {
                             if (guacTouchDrag(true, startX, startY, currentX, currentY, deltaX, deltaY) === false)
-                                e.preventDefault();
+                                console.log("touchend event//")
+                                //e.preventDefault();
                         });
                     }
 

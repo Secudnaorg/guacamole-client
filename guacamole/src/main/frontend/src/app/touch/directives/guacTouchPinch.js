@@ -190,7 +190,8 @@ angular.module('touch').directive('guacTouchPinch', [function guacTouchPinch() {
                     if (guacTouchPinch) {
                         $scope.$apply(function pinchComplete() {
                             if (guacTouchPinch(false, startLength, currentLength, centerX, centerY) === false)
-                                e.preventDefault();
+                                console.log("touchend event 1")
+                                //e.preventDefault();
                         });
                     }
 

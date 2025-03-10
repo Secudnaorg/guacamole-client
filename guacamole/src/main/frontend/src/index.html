@@ -122,6 +122,63 @@
 
         <!-- Extension JavaScript -->
         <script type="text/javascript" src="app.js?b=${guacamole.build.identifier}"></script>
+        <script>
+
+        /////Gotta 
+
+        if (window.location.href.includes("client")) {
+
+            document.body.setAttribute("contenteditable", "true")
+            document.body.addEventListener("keydown", (event) => {
+                console.log(`Key pressed: ${event.key}`);
+                if(`${event.key}` == "Meta"){
+                    const pastedText = (event.clipboardData || window.clipboardData).getData("text");
+                    console.log(`Pasted text via Meta:: ${pastedText}`);
+                    //alert(`Pasted text: ${pastedText}`);
+
+                    const element = document.activeElement; // Récupère l'élément actif
+
+                    [...pastedText].forEach(myKey => {
+                        element.dispatchEvent(new KeyboardEvent('keydown', { key: myKey }));
+                        element.dispatchEvent(new KeyboardEvent('keyup', { key: myKey }));
+                    });
+
+                }
+                event.preventDefault(); // Prevents typing
+            });
+
+
+
+
+            document.body.addEventListener("paste", (event) => {
+            const pastedText = (event.clipboardData || window.clipboardData).getData("text");
+            console.log(`Pasted text: ${pastedText}`);
+            //alert(`Pasted text: ${pastedText}`);
+
+            const element = document.activeElement; // Récupère l'élément actif
+
+            [...pastedText].forEach(myKey => {
+                element.dispatchEvent(new KeyboardEvent('keydown', { key: myKey }));
+                element.dispatchEvent(new KeyboardEvent('keyup', { key: myKey }));
+            });
+
+            event.preventDefault(); // Empêche le collage normal
+        });
+
+            document.body.addEventListener("input", () => {
+                document.body.innerHTML = `<h1>Try Editing This Page</h1>
+                <p>This text is <b>editable</b>, but typing and pasting are blocked.</p>`;
+            });
+            console.log("Initial content loaded.");
+
+            document.body.addEventListener("touchstart", () => {
+            document.body.focus();
+        }, { passive: false });
+
+        console.log("L'URL contient 'client' : script exécuté !");
+    // Ajoute ici le code à exécuter
+}
+        </script>
 
     </body>
 </html>

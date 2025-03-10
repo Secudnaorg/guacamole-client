@@ -119,9 +119,9 @@ Guacamole.Mouse = function Mouse(element) {
     var scroll_delta = 0;
 
     // Block context menu so right-click gets sent properly
-    element.addEventListener("contextmenu", function(e) {
-        Guacamole.Event.DOMEvent.cancelEvent(e);
-    }, false);
+    // element.addEventListener("contextmenu", function(e) {
+    //     Guacamole.Event.DOMEvent.cancelEvent(e);
+    // }, false);
 
     element.addEventListener("mousemove", function(e) {
 
@@ -915,7 +915,7 @@ Guacamole.Mouse.Touchpad = function Touchpad(element) {
 
     element.addEventListener("touchstart", function(e) {
 
-        e.preventDefault();
+        //e.preventDefault();
 
         // Track number of touches, but no more than three
         touch_count = Math.min(e.touches.length, 3);
@@ -1222,7 +1222,7 @@ Guacamole.Mouse.Touchscreen = function Touchscreen(element) {
             return;
         }
 
-        e.preventDefault();
+        //e.preventDefault();
 
         // New touch begins a new gesture
         begin_gesture(e);
