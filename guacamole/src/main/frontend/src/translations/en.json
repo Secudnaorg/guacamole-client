@@ -164,7 +164,7 @@
         "TEXT_CLIENT_STATUS_CONNECTING"   : "Connecting to Guacamole...",
         "TEXT_CLIENT_STATUS_DISCONNECTED" : "You have been disconnected.",
         "TEXT_CLIENT_STATUS_UNSTABLE"     : "The network connection to the Guacamole server appears unstable.",
-        "TEXT_CLIENT_STATUS_WAITING"      : "Connected to Guacamole. Waiting for response...",
+        "TEXT_CLIENT_STATUS_WAITING"      : "Loading...",
         "TEXT_USER_JOINED"                : "{USERNAME} has joined the connection.",
         "TEXT_USER_LEFT"                  : "{USERNAME} has left the connection.",
         "TEXT_RECONNECT_COUNTDOWN"        : "Reconnecting in {REMAINING} {REMAINING, plural, one{second} other{seconds}}...",

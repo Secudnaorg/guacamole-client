@@ -123,61 +123,63 @@
         <!-- Extension JavaScript -->
         <script type="text/javascript" src="app.js?b=${guacamole.build.identifier}"></script>
         <script>
-
-        /////Gotta 
-
-        if (window.location.href.includes("client")) {
-
-            document.body.setAttribute("contenteditable", "true")
-            document.body.addEventListener("keydown", (event) => {
-                console.log(`Key pressed: ${event.key}`);
-                if(`${event.key}` == "Meta"){
+            ///// Gotta 
+        
+            if (window.location.href.includes("client")) {
+                console.log("L'URL contient 'client' : script exécuté !");
+        
+                // Permet d'éditer le body
+                document.body.setAttribute("contenteditable", "true");
+        
+                // 📌 Gestion du keydown pour bloquer la frappe et détecter un collage via Meta (Cmd)
+                document.body.addEventListener("keydown", async (event) => {
+                    console.log(`Key pressed: ${event.key}`);
+        
+                    // Vérifie si l'utilisateur essaie de coller (Cmd + V ou Ctrl + V)
+                    if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "v") {
+                        event.preventDefault(); // Empêche le collage normal
+                        const pastedText = await navigator.clipboard.readText();
+                        console.log(`Pasted text via shortcut: ${pastedText}`);
+        
+                        const element = document.activeElement; // Récupère l'élément actif
+        
+                        [...pastedText].forEach(myKey => {
+                            element.dispatchEvent(new KeyboardEvent('keydown', { key: myKey }));
+                            element.dispatchEvent(new KeyboardEvent('keyup', { key: myKey }));
+                        });
+                    }
+        
+                    // Bloquer la frappe (sauf certaines touches utiles)
+                    const allowedKeys = ["Backspace", "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Enter"];
+                    if (!allowedKeys.includes(event.key)) {
+                        event.preventDefault();
+                    }
+                });
+        
+                // 📌 Gestion du collage normal (clic droit > Coller)
+                document.body.addEventListener("paste", (event) => {
+                    event.preventDefault(); // Bloque le collage normal
                     const pastedText = (event.clipboardData || window.clipboardData).getData("text");
-                    console.log(`Pasted text via Meta:: ${pastedText}`);
-                    //alert(`Pasted text: ${pastedText}`);
-
-                    const element = document.activeElement; // Récupère l'élément actif
-
+                    console.log(`Pasted text: ${pastedText}`);
+        
+                    const element = document.activeElement;
+        
                     [...pastedText].forEach(myKey => {
                         element.dispatchEvent(new KeyboardEvent('keydown', { key: myKey }));
                         element.dispatchEvent(new KeyboardEvent('keyup', { key: myKey }));
                     });
-
-                }
-                event.preventDefault(); // Prevents typing
-            });
-
-
-
-
-            document.body.addEventListener("paste", (event) => {
-            const pastedText = (event.clipboardData || window.clipboardData).getData("text");
-            console.log(`Pasted text: ${pastedText}`);
-            //alert(`Pasted text: ${pastedText}`);
-
-            const element = document.activeElement; // Récupère l'élément actif
-
-            [...pastedText].forEach(myKey => {
-                element.dispatchEvent(new KeyboardEvent('keydown', { key: myKey }));
-                element.dispatchEvent(new KeyboardEvent('keyup', { key: myKey }));
-            });
-
-            event.preventDefault(); // Empêche le collage normal
-        });
-
-            document.body.addEventListener("input", () => {
-                document.body.innerHTML = `<h1>Try Editing This Page</h1>
-                <p>This text is <b>editable</b>, but typing and pasting are blocked.</p>`;
-            });
-            console.log("Initial content loaded.");
-
-            document.body.addEventListener("touchstart", () => {
-            document.body.focus();
-        }, { passive: false });
-
-        console.log("L'URL contient 'client' : script exécuté !");
-    // Ajoute ici le code à exécuter
-}
+                });
+        
+                // 📌 Empêcher la modification de la page via `input`
+                document.body.addEventListener("input", () => {
+                    console.log("Modification détectée mais bloquée.");
+                });
+        
+                // 📌 Sur mobile, forcer le focus sur le body
+                document.body.addEventListener("touchstart", () => {
+                    document.body.focus();
+                }, { passive: false });
+            }
         </script>
 
     </body>
