@@ -78,8 +78,9 @@ FROM tomcat:${TOMCAT_VERSION}-${TOMCAT_JRE}
 
 # Install XMLStarlet for server.xml alterations
 RUN apt-get update -qq \
-    && apt-get install -y xmlstarlet \
+    && apt-get install -y xmlstarlet nginx\
     && rm -rf /var/lib/apt/lists/* 
+COPY nginxgua.conf /etc/nginx/nginx.conf
 
 # This is where the build artifacts go in the runtime image
 WORKDIR /opt/guacamole
@@ -103,4 +104,5 @@ ENV BAN_ENABLED=true \
 
 # Start Guacamole under Tomcat, listening on 0.0.0.0:8080
 EXPOSE 8080
+
 CMD ["/opt/guacamole/bin/entrypoint.sh" ]
