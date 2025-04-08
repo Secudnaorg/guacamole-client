@@ -78,9 +78,8 @@ FROM tomcat:${TOMCAT_VERSION}-${TOMCAT_JRE}
 
 # Install XMLStarlet for server.xml alterations
 RUN apt-get update -qq \
-    && apt-get install -y xmlstarlet nginx\
+    && apt-get install -y xmlstarlet\
     && rm -rf /var/lib/apt/lists/* 
-COPY nginxgua.conf /etc/nginx/nginx.conf
 
 # This is where the build artifacts go in the runtime image
 WORKDIR /opt/guacamole
